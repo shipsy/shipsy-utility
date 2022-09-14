@@ -18,7 +18,17 @@ android {
             useSupportLibrary true
         }
     }
-
+    signingConfigs {
+        generic {
+            storeFile file(System.getenv("generic_jks_file"))
+            storePassword System.getenv("generic_password")
+            keyAlias System.getenv("generic_alias")
+            keyPassword System.getenv("generic_password")
+            // Optional, specify signing versions used
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -41,6 +51,13 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        utility {
+            applicationId 'com.shipsy.utility'
+            signingConfig signingConfigs.generic
         }
     }
 }
